@@ -16,4 +16,5 @@ public class BigDataException extends RuntimeException{
     public static BigDataException userNotFound() {return new BigDataException("用户不存在!");}
     public static BigDataException userAlreadyExists() {return new BigDataException("用户已经存在!");}
     public static BigDataException permissionDenied() {return new BigDataException("权限错误!");}
+    public static BigDataException notLogin() {return new BigDataException("未登录!");}
 }
