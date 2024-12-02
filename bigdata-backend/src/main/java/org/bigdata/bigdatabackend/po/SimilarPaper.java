@@ -3,6 +3,7 @@ package org.bigdata.bigdatabackend.po;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bigdata.bigdatabackend.vo.SimilarPaperVO;
 
 import javax.persistence.*;
 
@@ -31,4 +32,13 @@ public class SimilarPaper {
     @Basic
     @JoinColumn(name = "paper_id")
     private Integer paperId;
+
+    public SimilarPaperVO toVO() {
+        SimilarPaperVO similarPaperVO = new SimilarPaperVO();
+        similarPaperVO.setSimilarPaperId(this.similarPaperId);
+        similarPaperVO.setTitle(this.title);
+        similarPaperVO.setSimilarity(this.similarity);
+        similarPaperVO.setPaperId(this.paperId);
+        return similarPaperVO;
+    }
 }

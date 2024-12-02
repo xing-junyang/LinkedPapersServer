@@ -3,6 +3,7 @@ package org.bigdata.bigdatabackend.po;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bigdata.bigdatabackend.vo.CitationVO;
 
 import javax.persistence.*;
 
@@ -32,4 +33,14 @@ public class Citation {
     @Basic
     @JoinColumn(name = "paper_id")
     private Integer paperId;
+
+    public CitationVO toVO() {
+        CitationVO citationVO = new CitationVO();
+        citationVO.setCitationId(this.citationId);
+        citationVO.setTitle(this.title);
+        citationVO.setYear(this.year);
+        citationVO.setPaperId(this.paperId);
+        return citationVO;
+    }
+
 }

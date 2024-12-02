@@ -3,6 +3,7 @@ package org.bigdata.bigdatabackend.po;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bigdata.bigdatabackend.vo.PaperVO;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -38,6 +39,16 @@ public class Paper {
     @Basic
     @Column(name = "category")
     private String category;
+
+    public PaperVO toVO() {
+        PaperVO paperVO = new PaperVO();
+        paperVO.setPaperId(this.paperId);
+        paperVO.setTitle(this.title);
+        paperVO.setAbstractText(this.abstractText);
+        paperVO.setYear(this.year);
+        paperVO.setCategory(this.category);
+        return paperVO;
+    }
 
 
 }
