@@ -3,13 +3,11 @@ package org.bigdata.bigdatabackend.po;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bigdata.bigdatabackend.enums.UserEnum;
+import org.bigdata.bigdatabackend.enums.RoleEnum;
 import org.bigdata.bigdatabackend.vo.UserVO;
-
 
 import javax.persistence.*;
 import java.util.Date;
-
 
 @Getter
 @Setter
@@ -39,15 +37,22 @@ public class User {
     private String password;
 
     @Basic
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Basic
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private UserEnum role;
+    private RoleEnum role;
+
+    @Basic
+    @Column(name = "register_time")
+    private Date registerTime;
+
+    @Basic
+    @Column(name = "last_login_time")
+    private Date lastLoginTime;
 
 
+    @Basic
+    @Column(name = "vip_expire_time")
+    private Date vipExpireTime;
 
     public UserVO toVO() {
         UserVO userVO = new UserVO();
@@ -55,9 +60,10 @@ public class User {
         userVO.setUsername(this.username);
         userVO.setEmail(this.email);
         userVO.setPassword(this.password);
-        userVO.setCreateTime(this.createTime);
         userVO.setRole(this.role);
-
+        userVO.setRegisterTime(this.registerTime);
+        userVO.setLastLoginTime(this.lastLoginTime);
+        userVO.setVipExpireTime(this.vipExpireTime);
         return userVO;
     }
 }

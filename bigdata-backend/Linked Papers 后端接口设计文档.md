@@ -12,20 +12,20 @@
 - **请求体**:
 ```json
 {
-    "username": "string",
-    "email": "string",
-    "password": "string"
+  "username": "string",
+  "email": "string",
+  "password": "string"
 }
 ```
 - **响应**:
 ```json
 {
-    "code": 0,
-    "message": "注册成功",
-    "data": {
-        "userId": "string",
-        "username": "string"
-    }
+  "code": 0,
+  "message": "注册成功",
+  "data": {
+    "userId": "string",
+    "username": "string"
+  }
 }
 ```
 
@@ -35,22 +35,45 @@
 - **请求体**:
 ```json
 {
-    "email": "string",
-    "password": "string"
+  "email": "string",
+  "password": "string"
 }
 ```
 - **响应**:
 ```json
 {
+  "code": 0,
+  "message": "登录成功",
+  "data": {
+    "token": "string",
+    "userInfo": {
+      "userId": "string",
+      "username": "string",
+      "role": "NORMAL/VIP"
+    }
+  }
+}
+```
+
+### 1.3 获取用户信息
+- **接口**: GET /api/auth/userinfo
+- **描述**: 获取当前登录用户信息
+- **权限**: 需要登录
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
+- **响应**:
+```json
+{
     "code": 0,
-    "message": "登录成功",
     "data": {
-        "token": "string",
-        "userInfo": {
-            "userId": "string",
-            "username": "string",
-            "role": "NORMAL/VIP"
-        }
+        "userId": "string",
+        "username": "string",
+        "email": "string",
+        "role": "NORMAL/VIP",
+        "registerTime": "datetime",
+        "lastLoginTime": "datetime"
     }
 }
 ```
@@ -60,7 +83,7 @@
 ### 2.1 关键词搜索
 - **接口**: GET /api/papers/search
 - **描述**: 基于关键词搜索论文
-- **参数**: 
+- **参数**:
   - keywords: string (查询关键词)
   - page: int (页码)
   - size: int (每页数量)
@@ -86,11 +109,38 @@
 }
 ```
 
+### 2.2 向量相似度搜索
+- **接口**: POST /api/papers/vector-search
+- **描述**: 基于论文向量进行相似度搜索
+- **请求体**:
+```json
+{
+    "vector": [0.1, 0.2, ...], // 128维向量
+    "limit": 10
+}
+```
+- **响应**:
+```json
+{
+    "code": 0,
+    "data": {
+        "papers": [{
+            "paperId": "string",
+            "title": "string",
+            "similarity": "number"
+        }]
+    }
+}
+```
 
-
-### 2.2 获取论文详情
+### 2.3 获取论文详情
 - **接口**: GET /api/papers/{paperId}
 - **描述**: 获取论文详细信息，根据用户角色返回不同内容
+- **权限**: 需要登录
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
 - **响应**:
 ```json
 {
@@ -150,7 +200,12 @@
 ### 4.1 获取浏览历史
 - **接口**: GET /api/user/history
 - **描述**: 获取用户的论文浏览历史
-- **参数**: 
+- **权限**: 需要登录
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
+- **参数**:
   - page: int
   - size: int
 - **响应**:
@@ -171,6 +226,11 @@
 ### 4.2 记录浏览历史
 - **接口**: POST /api/user/history
 - **描述**: 记录用户浏览论文的历史
+- **权限**: 需要登录
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
 - **请求体**:
 ```json
 {
@@ -188,6 +248,11 @@
 ### 4.3 获取个性化推荐
 - **接口**: GET /api/user/recommendations
 - **描述**: 基于用户浏览历史推荐论文
+- **权限**: 需要登录
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
 - **响应**:
 ```json
 {
@@ -209,6 +274,11 @@
 ### 5.1 更新用户角色
 - **接口**: PUT /api/admin/users/{userId}/role
 - **描述**: 更新用户角色（普通用户/VIP）
+- **权限**: 需要管理员权限
+- **请求头**:
+```
+Authorization: Bearer {token}
+```
 - **请求体**:
 ```json
 {
@@ -238,4 +308,3 @@
     }
 }
 ```
-
