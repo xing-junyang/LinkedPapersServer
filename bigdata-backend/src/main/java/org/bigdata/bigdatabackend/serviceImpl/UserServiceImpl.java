@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         }
         User newUser = userVO.toPO();
         newUser.setRegisterTime(new Date());
-        newUser.setPassword(passwordEncoder.encode(userVO.getPassword()));
+        newUser.setPassword(userVO.getPassword());
         newUser.setRole(RoleEnum.NORMAL);
         userRepository.save(newUser);
         return true;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (passwordEncoder.matches(password, user.getPassword())) {
+            if (password.equals(user.getPassword()) ){
                 user.setLastLoginTime(new Date());
                 return tokenUtil.getToken(user);
             } else {
