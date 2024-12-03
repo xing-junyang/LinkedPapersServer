@@ -67,6 +67,14 @@ public class SimilarPaper {
     private Integer paperId;
 
     @Basic
+    @Column(name = "similar_paper0")
+    private Integer similarPaper0;
+
+    @Basic
+    @Column(name = "similarity0")
+    private Double similarity0;
+
+    @Basic
     @Column(name = "similar_paper1")
     private Integer similarPaper1;
 
@@ -138,13 +146,6 @@ public class SimilarPaper {
     @Column(name = "similarity9")
     private Double similarity9;
 
-    @Basic
-    @Column(name = "similar_paper10")
-    private Integer similarPaper10;
-
-    @Basic
-    @Column(name = "similarity10")
-    private Double similarity10;
 
     // 将PO对象转换为VO对象
     public SimilarPaperVO toVO() {
@@ -152,6 +153,7 @@ public class SimilarPaper {
         similarPaperVO.setPaperId(this.paperId);
 
         // 使用硬编码字段填充VO中的列表
+        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper0, this.similarity0);
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper1, this.similarity1);
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper2, this.similarity2);
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper3, this.similarity3);
@@ -161,7 +163,6 @@ public class SimilarPaper {
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper7, this.similarity7);
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper8, this.similarity8);
         similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper9, this.similarity9);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper10, this.similarity10);
 
         return similarPaperVO;
     }

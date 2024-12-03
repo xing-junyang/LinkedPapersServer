@@ -61,30 +61,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @Table(name = "citations", indexes = {
-        @Index(name = "idx_citation_id", columnList = "citation_id"),
-        @Index(name = "idx_title", columnList = "title")
+        @Index(name = "idx_paper_id", columnList = "paper_id"),
 })
 public class Citation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "citation_id", nullable = false, unique = true)
-    private Integer citationId;
+    @Column(name = "paper_id", nullable = false, unique = true)
+    private Integer paperId;
 
-    @Basic
-    @Column(name = "title")
-    private String title;
-
-    @Basic
-    @Column(name = "year")
-    private int year;
 
     @Basic
     @Column(name = "citations")
     private String citations;  // 这是一个逗号分隔的字符串
 
-    @Basic
-    @JoinColumn(name = "paper_id")
-    private Integer paperId;
 
     /**
      * 将 Citation PO 转换为 VO。
@@ -92,9 +81,6 @@ public class Citation {
      */
     public CitationVO toVO() {
         CitationVO citationVO = new CitationVO();
-        citationVO.setCitationId(this.citationId);
-        citationVO.setTitle(this.title);
-        citationVO.setYear(this.year);
         citationVO.setPaperId(this.paperId);
 
         // 将逗号分隔的字符串转为 List<Integer>

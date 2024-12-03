@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SimilarPaperRepository extends JpaRepository<SimilarPaper, Integer> {
-    List<SimilarPaper> findByPaperId(Integer paperId);
+    SimilarPaper findByPaperId(Integer paperId);
 }

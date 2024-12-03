@@ -36,9 +36,6 @@ import java.util.List;
 @Setter
 public class CitationVO {
 
-    private Integer citationId;
-    private String title;
-    private int year;
     private Integer paperId;
 
     // 用来存储解析后的 citation 列表

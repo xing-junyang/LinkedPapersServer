@@ -19,8 +19,8 @@ public class PaperVO {
     private int year;
     private String category;
 
-    List<CitationVO> citations;
-    List<SimilarPaperVO> similarPapers;
+    CitationVO citations;
+    SimilarPaperVO similarPapers;
 
 
     public Paper toPO() {

@@ -2,8 +2,10 @@ package org.bigdata.bigdatabackend.serviceImpl;
 
 import org.bigdata.bigdatabackend.enums.SortByEnum;
 import org.bigdata.bigdatabackend.exception.BigDataException;
+import org.bigdata.bigdatabackend.po.Citation;
 import org.bigdata.bigdatabackend.po.History;
 import org.bigdata.bigdatabackend.po.Paper;
+import org.bigdata.bigdatabackend.po.SimilarPaper;
 import org.bigdata.bigdatabackend.repository.CitationRepository;
 import org.bigdata.bigdatabackend.repository.HistoryRepository;
 import org.bigdata.bigdatabackend.repository.PaperRepository;
@@ -12,6 +14,7 @@ import org.bigdata.bigdatabackend.service.PaperService;
 import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.vo.PaperFilterVO;
 import org.bigdata.bigdatabackend.vo.PaperVO;
+import org.bigdata.bigdatabackend.vo.SimilarPaperVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,12 +88,16 @@ public class PaperServiceImpl implements PaperService {
         paperVO.setYear(paper.getYear());
         paperVO.setCategory(paper.getCategory());
         if (isVip) {
-            paperVO.setCitations(citationRepository.findByPaperId(paper.getPaperId()).stream()
-                    .map(citation -> citation.toVO())
-                    .collect(Collectors.toList()));
-            paperVO.setSimilarPapers(similarPaperRepository.findByPaperId(paper.getPaperId()).stream()
-                    .map(similarPaper -> similarPaper.toVO())
-                    .collect(Collectors.toList()));
+//            paperVO.setCitations(citationRepository.findByPaperId(paper.getPaperId()).stream()
+//                    .map(citation -> citation.toVO())
+//                    .collect(Collectors.toList()));
+//            paperVO.setSimilarPapers(similarPaperRepository.findByPaperId(paper.getPaperId()).stream()
+//                    .map(similarPaper -> similarPaper.toVO())
+//                    .collect(Collectors.toList()));
+            SimilarPaper similarPaper = similarPaperRepository.findByPaperId(paper.getPaperId());
+            paperVO.setSimilarPapers(similarPaper.toVO());
+            Citation citation = citationRepository.findByPaperId(paper.getPaperId());
+            paperVO.setCitations(citation.toVO());
         }
         return paperVO;
     }
