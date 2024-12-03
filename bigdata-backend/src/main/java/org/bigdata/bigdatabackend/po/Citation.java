@@ -71,8 +71,13 @@ public class Citation {
 
 
     @Basic
-    @Column(name = "citations")
-    private String citations;  // 这是一个逗号分隔的字符串
+    @Column(name = "citations", length = 10000)  // 设置长度为1000
+    private String citations;  // 这是一个逗号分隔的字符串  // 这是一个逗号分隔的字符串
+
+    @Basic
+    @Column(name = "citation_count")
+    private Integer citationCount;
+
 
 
     /**
@@ -90,6 +95,8 @@ public class Citation {
                     .collect(Collectors.toList());
             citationVO.setCitations(citationsList);
         }
+
+        citationVO.setCitationCount(this.citationCount);
 
         return citationVO;
     }

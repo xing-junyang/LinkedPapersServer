@@ -308,3 +308,28 @@ Authorization: Bearer {token}
     }
 }
 ```
+
+load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/papers.csv'
+into table papers
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(paper_id,title,abstract_text,category,year);
+
+
+load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/similar_papers.csv'
+into table similar_papers
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(paper_id,similar_paper0,similarity0,similar_paper1,similarity1,similar_paper2,similarity2,similar_paper3,similarity3,similar_paper4,similarity4,similar_paper5,similarity5,similar_paper6,similarity6,similar_paper7,similarity7,similar_paper8,similarity8,similar_paper9,similarity9);
+
+load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/citation_table.csv'
+into table citations
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(paper_id,citations,citation_count);

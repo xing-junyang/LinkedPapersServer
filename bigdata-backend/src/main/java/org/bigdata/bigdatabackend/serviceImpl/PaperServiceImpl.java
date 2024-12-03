@@ -14,12 +14,12 @@ import org.bigdata.bigdatabackend.service.PaperService;
 import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.vo.PaperFilterVO;
 import org.bigdata.bigdatabackend.vo.PaperVO;
-import org.bigdata.bigdatabackend.vo.SimilarPaperVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,20 +64,21 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public List<PaperVO> getPapersByFilter(PaperFilterVO filterVO) {
         List<Paper> papers = paperRepository.findAll();
+
         return papers.stream()
-                .filter(paper -> filterVO.getKeyword() == null || paper.getTitle().contains(filterVO.getKeyword()))
-                .filter(paper -> filterVO.getCategory() == null || paper.getCategory().equals(filterVO.getCategory()))
-                .filter(paper -> filterVO.getYear_floor() == 0 || paper.getYear() >= filterVO.getYear_floor())
-                .filter(paper -> filterVO.getYear_ceil() == 0 || paper.getYear() <= filterVO.getYear_ceil())
-                .sorted((p1, p2) -> {
-                    if (filterVO.getSortBy() == SortByEnum.NEWEST) {
-                        return Integer.compare(p2.getYear(), p1.getYear());
-                    } else {
-                        return p1.getTitle().compareTo(p2.getTitle());
-                    }
-                })
-                .map(paper -> convertToPaperVO(paper, false))
-                .collect(Collectors.toList());
+        .filter(paper -> filterVO.getKeywords() == null || paper.getTitle().toLowerCase().contains(filterVO.getKeywords().toLowerCase()))
+        .filter(paper -> Objects.equals(filterVO.getCategory(), "") || paper.getCategory().equals(filterVO.getCategory()))
+        .filter(paper -> filterVO.getYearStart() == 0 || paper.getYear() >= filterVO.getYearStart())
+        .filter(paper -> filterVO.getYearEnd() == 0 || paper.getYear() <= filterVO.getYearEnd())
+        .sorted((p1, p2) -> {
+            if (filterVO.getSortBy() == SortByEnum.NEWEST) {
+                return Integer.compare(p2.getYear(), p1.getYear());
+            } else {
+                return p1.getTitle().compareTo(p2.getTitle());
+            }
+        })
+        .map(paper -> convertToPaperVO(paper, false))
+        .collect(Collectors.toList());
     }
 
     private PaperVO convertToPaperVO(Paper paper, boolean isVip) {
@@ -96,9 +97,9 @@ public class PaperServiceImpl implements PaperService {
 //                    .collect(Collectors.toList()));
             SimilarPaper similarPaper = similarPaperRepository.findByPaperId(paper.getPaperId());
             paperVO.setSimilarPapers(similarPaper.toVO());
-            Citation citation = citationRepository.findByPaperId(paper.getPaperId());
-            paperVO.setCitations(citation.toVO());
         }
+        Citation citation = citationRepository.findByPaperId(paper.getPaperId());
+        paperVO.setCitations(citation.toVO());
         return paperVO;
     }
 

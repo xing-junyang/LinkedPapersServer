@@ -9,9 +9,9 @@ import org.bigdata.bigdatabackend.enums.SortByEnum;
 @Setter
 @NoArgsConstructor
 public class PaperFilterVO {
-    String keyword;
+    String keywords;
     SortByEnum sortBy;
     String category;
-    int year_floor=0;
-    int year_ceil=0;
+    int yearStart =0;
+    int yearEnd =0;
 }

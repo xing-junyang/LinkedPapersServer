@@ -33,12 +33,13 @@ public class Paper {
     private String abstractText;
 
     @Basic
+    @Column(name = "category")
+    private String category;
+
+    @Basic
     @Column(name = "year")
     private int year;
 
-    @Basic
-    @Column(name = "category")
-    private String category;
 
     public PaperVO toVO() {
         PaperVO paperVO = new PaperVO();
