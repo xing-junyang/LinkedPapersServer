@@ -1,6 +1,7 @@
 package org.bigdata.bigdatabackend.controller;
 
 import org.bigdata.bigdatabackend.service.RecommendationService;
+import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.vo.PaperVO;
 import org.bigdata.bigdatabackend.vo.RecommendationVO;
 import org.bigdata.bigdatabackend.vo.ResultVO;
@@ -16,8 +17,12 @@ public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;
 
+    @Autowired
+    SecurityUtil securityUtil;
+
     @GetMapping("/get")
-    public ResultVO<List<RecommendationVO>> getRecommendations(@RequestParam Integer userId) {
+    public ResultVO<List<RecommendationVO>> getRecommendations() {
+        Integer userId = securityUtil.getCurrentUser().getUserId();
         return ResultVO.buildSuccess(recommendationService.getRecommendations(userId));
     }
 }
