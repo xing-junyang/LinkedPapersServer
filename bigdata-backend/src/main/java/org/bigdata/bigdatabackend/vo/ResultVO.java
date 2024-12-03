@@ -13,17 +13,17 @@ import java.io.Serializable;
 @Setter
 public class ResultVO<T> implements Serializable {
 
-    private String code;
+    private Integer code;
 
-    private String msg;
+    private String message;
 
     private T result;
 
     public static <T> ResultVO<T> buildSuccess(T result) {
-        return new ResultVO<T>("0", null, result);
+        return new ResultVO<T>(0, "SUCCESS", result);
     }
 
     public static <T> ResultVO<T> buildFailure(String msg) {
-        return new ResultVO<T>("-1", msg, null);
+        return new ResultVO<T>(-1, msg, null);
     }
 }
