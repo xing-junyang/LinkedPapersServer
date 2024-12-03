@@ -153,16 +153,16 @@ public class SimilarPaper {
         similarPaperVO.setPaperId(this.paperId);
 
         // 使用硬编码字段填充VO中的列表
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper0, this.similarity0);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper1, this.similarity1);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper2, this.similarity2);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper3, this.similarity3);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper4, this.similarity4);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper5, this.similarity5);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper6, this.similarity6);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper7, this.similarity7);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper8, this.similarity8);
-        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper9, this.similarity9);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper0, this.similarity0);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper1, this.similarity1);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper2, this.similarity2);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper3, this.similarity3);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper4, this.similarity4);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper5, this.similarity5);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper6, this.similarity6);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper7, this.similarity7);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper8, this.similarity8);
+//        similarPaperVO.addSimilarPaperAndSimilarity(this.similarPaper9, this.similarity9);
 
         return similarPaperVO;
     }

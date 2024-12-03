@@ -40,8 +40,8 @@ public class RecommendationServiceImpl implements RecommendationService {
         for (Integer paperId : recentPaperIds) {
             SimilarPaper similarPaper = similarPaperRepository.findByPaperId(paperId);
             SimilarPaperVO similarPaperVO = similarPaper.toVO();
-            for (int i = 0; i < similarPaperVO.getSimilarities().size(); i++) {
-                paperSimilarityMap.put(paperId, Map.entry(similarPaperVO.getSimilarPapers().get(i), similarPaperVO.getSimilarities().get(i)));
+            for (int i = 0; i < similarPaperVO.getSimilarPapers().size(); i++) {
+                paperSimilarityMap.put(paperId, Map.entry(similarPaperVO.getSimilarPapers().get(i).getPaperId(), similarPaperVO.getSimilarPapers().get(i).getSimilarity()));
             }
         }
 

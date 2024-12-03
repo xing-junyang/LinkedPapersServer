@@ -39,7 +39,8 @@ public class CitationVO {
     private Integer paperId;
 
     // 用来存储解析后的 citation 列表
-    private List<Integer> citations;
+    private List<CitationResultVO> citations;
+
 
     private Integer citationCount;
 }

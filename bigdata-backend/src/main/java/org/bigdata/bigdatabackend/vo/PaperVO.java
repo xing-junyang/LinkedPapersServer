@@ -21,15 +21,8 @@ public class PaperVO {
 
     CitationVO citations;
     SimilarPaperVO similarPapers;
+    List<SameCategoryPaperVO> sameCategoryPapers;
 
 
-    public Paper toPO() {
-        Paper paper = new Paper();
-        paper.setPaperId(this.paperId);
-        paper.setTitle(this.title);
-        paper.setAbstractText(this.abstractText);
-        paper.setYear(this.year);
-        paper.setCategory(this.category);
-        return paper;
-    }
+
 }

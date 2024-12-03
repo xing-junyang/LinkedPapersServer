@@ -49,6 +49,8 @@ package org.bigdata.bigdatabackend.po;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bigdata.bigdatabackend.repository.PaperRepository;
+import org.bigdata.bigdatabackend.vo.CitationResultVO;
 import org.bigdata.bigdatabackend.vo.CitationVO;
 
 import javax.persistence.*;
@@ -80,6 +82,7 @@ public class Citation {
 
 
 
+
     /**
      * 将 Citation PO 转换为 VO。
      * 将 citations 字段从逗号分隔的字符串转换为 List<Integer>。
@@ -88,13 +91,8 @@ public class Citation {
         CitationVO citationVO = new CitationVO();
         citationVO.setPaperId(this.paperId);
 
-        // 将逗号分隔的字符串转为 List<Integer>
-        if (this.citations != null && !this.citations.isEmpty()) {
-            List<Integer> citationsList = Arrays.stream(this.citations.split(","))
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
-            citationVO.setCitations(citationsList);
-        }
+
+
 
         citationVO.setCitationCount(this.citationCount);
 
