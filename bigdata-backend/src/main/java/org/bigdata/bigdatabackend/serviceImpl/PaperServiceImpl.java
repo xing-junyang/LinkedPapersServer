@@ -2,16 +2,20 @@ package org.bigdata.bigdatabackend.serviceImpl;
 
 import org.bigdata.bigdatabackend.enums.SortByEnum;
 import org.bigdata.bigdatabackend.exception.BigDataException;
+import org.bigdata.bigdatabackend.po.History;
 import org.bigdata.bigdatabackend.po.Paper;
 import org.bigdata.bigdatabackend.repository.CitationRepository;
+import org.bigdata.bigdatabackend.repository.HistoryRepository;
 import org.bigdata.bigdatabackend.repository.PaperRepository;
 import org.bigdata.bigdatabackend.repository.SimilarPaperRepository;
 import org.bigdata.bigdatabackend.service.PaperService;
+import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.vo.PaperFilterVO;
 import org.bigdata.bigdatabackend.vo.PaperVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,19 +29,34 @@ public class PaperServiceImpl implements PaperService {
     private CitationRepository citationRepository;
 
     @Autowired
+    private HistoryRepository historyRepository;
+
+    @Autowired
     private SimilarPaperRepository similarPaperRepository;
+
+    @Autowired
+    SecurityUtil securityUtil;
 
     @Override
     public PaperVO getPaperInfoVip(Integer paperId) {
         Paper paper = paperRepository.findById(paperId).orElseThrow(() -> BigDataException.paperNotFound());
+        Integer userId = getCurrentUserId();
+        recordUserHistory(userId, paperId, paper.getTitle());
         return convertToPaperVO(paper, true);
     }
 
     @Override
     public PaperVO getPaperInfoNormal(Integer paperId) {
         Paper paper = paperRepository.findById(paperId).orElseThrow(() -> BigDataException.paperNotFound());
+        Integer userId = getCurrentUserId();
+        recordUserHistory(userId, paperId, paper.getTitle());
         return convertToPaperVO(paper, false);
     }
+
+    public Integer getCurrentUserId() {
+        return securityUtil.getCurrentUser().getUserId();
+    }
+
 
     @Override
     public List<PaperVO> getPapersByFilter(PaperFilterVO filterVO) {
@@ -74,5 +93,15 @@ public class PaperServiceImpl implements PaperService {
                     .collect(Collectors.toList()));
         }
         return paperVO;
+    }
+
+    @Override
+    public void recordUserHistory(Integer userId, Integer paperId, String title) {
+        History history = new History();
+        history.setUserId(userId);
+        history.setPaperId(paperId);
+        history.setTitle(title);
+        history.setViewTime(new Date());
+        historyRepository.save(history);
     }
 }

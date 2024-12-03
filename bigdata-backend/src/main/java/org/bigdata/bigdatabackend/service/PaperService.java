@@ -9,4 +9,5 @@ public interface PaperService {
     PaperVO getPaperInfoVip(Integer paperId);
     PaperVO getPaperInfoNormal(Integer paperId);
     List<PaperVO> getPapersByFilter(PaperFilterVO filterVO);
+    void recordUserHistory(Integer userId, Integer paperId, String title);
 }

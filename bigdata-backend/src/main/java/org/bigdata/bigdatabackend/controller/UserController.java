@@ -5,10 +5,13 @@ import org.bigdata.bigdatabackend.exception.BigDataException;
 import org.bigdata.bigdatabackend.service.UserService;
 import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.util.TokenUtil;
+import org.bigdata.bigdatabackend.vo.HistoryVO;
 import org.bigdata.bigdatabackend.vo.ResultVO;
 import org.bigdata.bigdatabackend.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -37,12 +40,17 @@ public class UserController {
     }
 
     @GetMapping("/updateUserRole")
-    public ResultVO<Boolean> updateUserRole(@RequestParam("userId") String userId, @RequestParam("role") String role) {
+    public ResultVO<Boolean> updateUserRole(@RequestParam("userId") Integer userId, @RequestParam("role") String role) {
         UserVO userVO = userService.getUserInfo();
         if (userVO.getRole()== RoleEnum.VIP) {
             throw BigDataException.permissionDenied();
         }
         return ResultVO.buildSuccess(userService.updateUserRole(userId, role));
+    }
+
+    @GetMapping("/getUserHistory")
+    public ResultVO<List<HistoryVO>> getUserHistory(@RequestParam("userId") Integer userId) {
+        return ResultVO.buildSuccess(userService.getUserHistory(userId));
     }
 
 

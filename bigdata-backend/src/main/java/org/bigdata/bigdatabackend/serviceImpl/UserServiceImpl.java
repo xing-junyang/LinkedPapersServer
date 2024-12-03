@@ -4,10 +4,12 @@ import org.bigdata.bigdatabackend.BigdataBackendApplication;
 import org.bigdata.bigdatabackend.enums.RoleEnum;
 import org.bigdata.bigdatabackend.exception.BigDataException;
 import org.bigdata.bigdatabackend.po.User;
+import org.bigdata.bigdatabackend.repository.HistoryRepository;
 import org.bigdata.bigdatabackend.repository.UserRepository;
 import org.bigdata.bigdatabackend.service.UserService;
 import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.util.TokenUtil;
+import org.bigdata.bigdatabackend.vo.HistoryVO;
 import org.bigdata.bigdatabackend.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,13 +17,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Autowired
     TokenUtil tokenUtil;
@@ -70,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserRole(String userId, String role) {
-        Optional<User> userOptional = userRepository.findById(Integer.parseInt(userId));
+    public boolean updateUserRole(Integer userId, String role) {
+        Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setRole(RoleEnum.valueOf(role));
@@ -86,5 +93,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw BigDataException.userNotFound();
         }
+    }
+
+    @Override
+    public List<HistoryVO> getUserHistory(Integer userId) {
+        return historyRepository.findByUserId(userId).stream()
+                .map(history -> history.toVO())
+                .collect(Collectors.toList());
     }
 }
