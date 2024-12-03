@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
             User user = userOptional.get();
             if (password.equals(user.getPassword()) ){
                 user.setLastLoginTime(new Date());
+                userRepository.save(user);
                 return tokenUtil.getToken(user);
             } else {
                 throw BigDataException.passwordError();
