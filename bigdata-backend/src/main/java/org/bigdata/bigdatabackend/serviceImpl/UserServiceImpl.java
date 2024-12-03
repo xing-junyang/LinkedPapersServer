@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -99,8 +100,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<HistoryVO> getUserHistory(Integer userId) {
-        return historyRepository.findByUserId(userId).stream()
+        List<HistoryVO> his = historyRepository.findByUserId(userId).stream()
                 .map(history -> history.toVO())
                 .collect(Collectors.toList());
+        return his;
     }
 }

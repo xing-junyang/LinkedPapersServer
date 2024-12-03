@@ -16,7 +16,7 @@ public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;
 
-    @GetMapping
+    @GetMapping("/get")
     public ResultVO<List<RecommendationVO>> getRecommendations(@RequestParam Integer userId) {
         return ResultVO.buildSuccess(recommendationService.getRecommendations(userId));
     }

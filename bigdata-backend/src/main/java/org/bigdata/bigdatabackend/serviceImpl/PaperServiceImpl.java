@@ -14,7 +14,11 @@ import org.bigdata.bigdatabackend.service.PaperService;
 import org.bigdata.bigdatabackend.util.SecurityUtil;
 import org.bigdata.bigdatabackend.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -119,7 +123,9 @@ public class PaperServiceImpl implements PaperService {
             similarPaperVO.addSimilarPapers(similarPaper.getSimilarPaper9(), title9, similarPaper.getSimilarity9());
             paperVO.setSimilarPapers(similarPaperVO);
 
-            List<Paper> sameCategoryPaperList = paperRepository.findByCategory(paper.getCategory());
+//            List<Paper> sameCategoryPaperList = paperRepository.findByCategory(paper.getCategory());
+            Pageable pageable = PageRequest.of(0, 10); // 第0页，每页10条记录
+            Page<Paper> sameCategoryPaperList = paperRepository.findByCategory(paper.getCategory(), pageable);
             List<SameCategoryPaperVO> sameCategoryPapers = sameCategoryPaperList.stream()
                     .filter(p -> !p.getPaperId().equals(paper.getPaperId()))
                     .map(p -> {
@@ -132,7 +138,7 @@ public class PaperServiceImpl implements PaperService {
             paperVO.setSameCategoryPapers(sameCategoryPapers);
         }
         Citation citation = citationRepository.findByPaperId(paper.getPaperId());
-        CitationVO citationVO = new CitationVO();
+        CitationVO citationVO = citation.toVO();
         if (citation.getCitations() != null && !citation.getCitations().isEmpty()) {
             List<CitationResultVO> citationList = Arrays.stream(citation.getCitations().split(","))
                     .map(citationId -> {

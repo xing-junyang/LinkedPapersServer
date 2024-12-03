@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class SimilarPaperVO {
 
     private Integer paperId;
-   private List<SimilarPaperResultVO> similarPapers;
+   private List<SimilarPaperResultVO> similarPapers=new ArrayList<>();
 
     public void addSimilarPapers(Integer similarPaper, String title,Double similarity) {
         if (similarPaper != null && similarity != null&&title!=null) {
@@ -45,6 +45,7 @@ public class SimilarPaperVO {
             similarPaperResultVO.setPaperId(similarPaper);
             similarPaperResultVO.setTitle(title);
             similarPaperResultVO.setSimilarity(similarity);
+            similarPapers.add(similarPaperResultVO);
         }
     }
 }
